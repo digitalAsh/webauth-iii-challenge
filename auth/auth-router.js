@@ -2,17 +2,30 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const secrets = require('../config/secrets');
+//const secrets = require('../config/secrets');
 const Users = require('../users/users-model.js');
 
 function generateToken(user) {
     return jwt.sign({
         userId: user.id,
         userRole: user.department,
-        }, secrets.jwt, {
+        }, 
+        process.env.JWT_SECRET, 
+        {
             expiresIn: '1h',
     })
 }
+//     const payload = {
+//         subject: user.id,
+//         username: user.username,
+//     };
+
+//     const options = {
+//         expiresIn: '1h'
+//     }
+//     return jwt.sign(payload, secrets.jwtSecret, options);
+
+// }
 
 //for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
